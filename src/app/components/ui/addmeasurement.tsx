@@ -126,8 +126,8 @@ export default function AddMeasurement({ variant = "default" }) {
       });
 
       // Programmatically close the drawer
-      // closeButtonRef.current?.click();
-      router.push("/dashboard");
+      closeButtonRef.current?.click();
+      router.refresh();
     } catch (error) {
       console.error("Error adding measurement:", error);
       toast.error("Failed to add measurement");

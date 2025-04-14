@@ -59,8 +59,8 @@ export default function AddFamily() {
       setFamilyForm({ family_name: "" });
 
       // Programmatically close the drawer
-      // closeButtonRef.current?.click();
-            router.push('/dashboard');
+      closeButtonRef.current?.click();
+      router.refresh();
     } catch (error) {
       console.error("Error adding family:", error);
       toast.error("Failed to add family");

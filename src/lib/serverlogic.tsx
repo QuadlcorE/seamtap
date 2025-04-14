@@ -98,3 +98,57 @@ export async function deleteCustomer(customer_id: number) {
 
   return [measurements, customer];
 }
+
+export async function getCustomersByFamily() {
+  const user = await stackServerApp.getUser();
+  if (!user) {
+    return null;
+  }
+
+  // First, get all families for this user
+  const families = await prisma.family.findMany({
+    where: { 
+      user_id: user.id 
+    },
+    include: {
+      // Count the number of customers in each family
+      _count: {
+        select: {
+          customers: true
+        }
+      }
+    }
+  });
+
+  // Also count customers that don't belong to any family
+  const customersWithoutFamily = await prisma.customer.count({
+    where: {
+      user_id: user.id,
+      family_id: null
+    }
+  });
+
+  // Format the data for the chart
+  const chartData = families.map(family => ({
+    browser: family.family_name.toLowerCase(),  // Using browser field for family name
+    visitors: family._count.customers,          // Using visitors field for customer count
+    fill: `var(--color-${family.family_name.toLowerCase()})`
+  }));
+
+  // Add customers without family as "other"
+  if (customersWithoutFamily > 0) {
+    chartData.push({
+      browser: "other",
+      visitors: customersWithoutFamily,
+      fill: "var(--color-other)"
+    });
+  }
+
+  // Calculate total number of customers
+  const totalCustomers = chartData.reduce((acc, curr) => acc + curr.visitors, 0);
+
+  return {
+    chartData,
+    totalCustomers
+  };
+}
