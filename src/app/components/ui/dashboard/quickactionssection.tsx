@@ -24,7 +24,7 @@ export default function QuickActions() {
         <AddCustomer variant="quickaction" />
 
         {/* Add New Family Drawer */}
-        <AddFamily />
+        <AddFamily variant="quickaction"/>
         {/* Record Measurement Drawer */}
         <AddMeasurement />
       </CardContent>

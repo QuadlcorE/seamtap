@@ -152,3 +152,46 @@ export async function getCustomersByFamily() {
     totalCustomers
   };
 }
+
+export async function getFamiliesTable() {
+  // Get the current user
+  const user = await stackServerApp.getUser();
+  if (!user) {
+    return [];
+  }
+
+  // Get all families for this user with customer counts and created by info
+  const families = await prisma.family.findMany({
+    where: { 
+      user_id: user.id 
+    },
+    include: {
+      // Count the number of customers in each family
+      _count: {
+        select: {
+          customers: true
+        }
+      },
+      // Include the first customer to get created date information
+      customers: {
+        take: 1,
+        orderBy: {
+          created_at: 'asc'
+        }
+      }
+    },
+    orderBy: {
+      created_at: 'desc'
+    }
+  });
+
+  // Transform the data to match the table format
+  const familiesData = families.map(family => ({
+    id: family.family_id.toString(),
+    name: family.family_name,
+    members: family._count.customers,
+    createdAt: family.created_at.toISOString().split('T')[0]  // Format date as YYYY-MM-DD
+  }));
+
+  return familiesData;
+}

@@ -15,10 +15,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function AddFamily() {
+export default function AddFamily({ variant = "default"}) {
   // State for forms
   const [familyForm, setFamilyForm] = useState({
     family_name: "",
@@ -72,9 +72,16 @@ export default function AddFamily() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button className="w-full justify-start" variant="outline" size="sm">
-          Add New Family
-        </Button>
+        {variant == "quickaction" ? (
+          <Button variant="outline" className="w-full justify-start" size="sm">
+            Add New Family
+          </Button>
+        ) : (
+          <Button className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
+            Add New Family
+          </Button>
+        )}
       </DrawerTrigger>
       <DrawerContent className="p-6 space-y-6 max-w-6xl mx-auto">
         <form onSubmit={handleAddFamily} className="max-w-4xl mx-auto">

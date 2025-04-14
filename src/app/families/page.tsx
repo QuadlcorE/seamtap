@@ -22,9 +22,6 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card'
 import {
   DropdownMenu,
@@ -33,7 +30,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { Plus, MoreHorizontal, Search } from 'lucide-react'
+import { MoreHorizontal, Search } from 'lucide-react'
+import AddFamily from '../components/ui/addfamily'
 
 // Mock data for demonstration
 const mockFamilies = [
@@ -67,24 +65,20 @@ export default function FamiliesPage() {
   })
 
   return (
-    <div className='container mx-auto py-6'>
+    <div className="p-6 max-w-7xl mx-auto space-y-6">
+      <div>
+        <h1 className='text-3xl font-bold tracking-tight'>Families</h1>
+        <p className='text-muted-foreground mt-1'>
+          Manage all your families here. Add new families, view their details,
+          and organize customers into families.
+        </p>
+      </div>
+
+      <div className="flex justify-between items-center">
+        <AddFamily/>
+      </div>
+
       <Card>
-        <CardHeader>
-          <div className='flex items-center justify-between'>
-            <div>
-              <CardTitle className='text-2xl'>Families</CardTitle>
-              <CardDescription>
-                Manage all your families here. Add new families, view their
-                details, and organize customers into families.
-              </CardDescription>
-            </div>
-            <Button className='ml-auto' asChild>
-              <Link href='/families/new'>
-                <Plus className='mr-2 h-4 w-4' /> Add New Family
-              </Link>
-            </Button>
-          </div>
-        </CardHeader>
         <CardContent>
           <div className='flex flex-col space-y-4'>
             <div className='flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2'>
@@ -123,7 +117,6 @@ export default function FamiliesPage() {
 
             {filteredFamilies.length > 0 ? (
               <>
-                <div className='rounded-md border'>
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -203,7 +196,6 @@ export default function FamiliesPage() {
                       ))}
                     </TableBody>
                   </Table>
-                </div>
                 <div className='text-sm text-muted-foreground'>
                   Showing {filteredFamilies.length} of {mockFamilies.length}{" "}
                   families

@@ -104,24 +104,6 @@ export default function CustomersPage() {
     }
   }, [selectedFamily, searchTerm, customers]);
 
-  // Fetch all customers
-  // const fetchAllCustomers = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const customerData = await getCustomers();
-  //     if (!customerData) {
-  //       toast.error("Failed to load customer data");
-  //       throw new Error("Failed to fetch customer Data");
-  //     }
-  //     setCustomers(customerData);
-  //   } catch (error) {
-  //     console.error("Error loading Customer Data:", error);
-  //     toast.error("Failed to load Customers");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   // Handle Family selection
   const handleFamilyChange = (value: string) => {
     setSelectedFamily(value);
